@@ -1,0 +1,6 @@
+{
+  "Test_login.py::TestExample::test_something": true,
+  "Test_login.py": true,
+  "test_logout_user.py::test_button_login_register": true,
+  "test_post.py::test_button_login_register": true
+}

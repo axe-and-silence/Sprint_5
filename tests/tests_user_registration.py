@@ -1,27 +1,25 @@
-from selenium import webdriver
-from pages.registration_pages import RegistrationPage
 import pytest
+from pages.registration_pages import RegistrationPage
+from constants import Constants
+from helpers import Helpers
 
 # Проверка регистрации нового пользователя    
-def test_registration_new_user(get_driver,site,new_user_password,new_user_email):  
-        get_driver.get(site)
-        registration_page = RegistrationPage(get_driver)
-        registration_page.registration(new_user_email, new_user_password)
+def test_registration_new_user(setup_driver):  
+        driver = setup_driver
+        registration_page = RegistrationPage(driver)
+        registration_page.registration(Helpers.new_user_email(),Constants.password)
         assert registration_page.is_success_login
-        get_driver.quit()
 
 # Проверка регистрации нового пользователя с невалидным мылом
-def test_registration_new_user_invalid_email(get_driver,site,new_user_password,new_user_invalid_email):
-        get_driver.get(site)
-        registration_page = RegistrationPage(get_driver)
-        registration_page.registration(new_user_invalid_email, new_user_password)
+def test_registration_new_user_invalid_email(setup_driver):
+        driver = setup_driver
+        registration_page = RegistrationPage(driver)
+        registration_page.registration(Helpers.new_user_invalid_email(),Constants.password)
         assert registration_page.is_unsuccess_registration
-        get_driver.quit()
 
 # Проверка регистрации существующего пользователя
-def test_registration_existing_user(get_driver,site,user):
-        get_driver.get(site)
-        registration_page = RegistrationPage(get_driver)
-        registration_page.registration(user.email, user.password)
+def test_registration_existing_user(setup_driver):
+        driver = setup_driver
+        registration_page = RegistrationPage(driver)
+        registration_page.registration(Constants.email,Constants.password )
         assert registration_page.is_unsuccess_registration
-        get_driver.quit()

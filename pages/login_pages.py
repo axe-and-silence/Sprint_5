@@ -1,56 +1,30 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-import pytest
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
+from .base_page import BasePage
+from locators.login_pages_locators import LoginPageLocators
 
-class LoginPage:
-    def __init__(self, driver: WebDriver):
-        self.driver = driver
 
-        # Кнопка "Вход и регистрация" на основной странице
-        self.button_login_register = By.XPATH, ".//button[1]"
-
-        # Кнопка "Нет аккаунта" на странице авторизации
-        self.button_net_accaunta = By.CLASS_NAME, "buttonSecondary inButtonText undefined inButtonText"
-        
-        # Поле ввода "Введите Email" на странице авторизации
-        self.email_field_authorization = By.NAME, 'email'
-
-        # Поле ввода "Пароль" на странице авторизации
-        self.password_field_authorization = By.NAME, 'password'
-
-        # Кнопка "Войти" на странице авторизации
-        self.button_of_login = By.XPATH, './/form/div[3]/button[1]'
-
-        # Аватарка пользователя на главной странице. Нужна для определения успешной авторизации
-        self.avatar_of_user = By.CSS_SELECTOR, ".header_shell__zlCGj > div > div.flexRow > button > svg"
-
-        # Имя пользователя на главной странице. Нужен для определения успешной авторизации
-        self.name_of_user = By.CSS_SELECTOR, ".flexRow > div > h3" 
-
-        # Кнопка "Выйти" на главной странице 
-        self.button_of_logout = By.XPATH, ".//body/div/div/div[1]/div/div[1]/div/button"
+class LoginPage(BasePage):
     
+
+    def __init__(self, driver: WebDriver):
+        super().__init__(driver)
+        self.go_to_page()
+                 
     # Функция клика на кнопке "Вход и регистрация"    
     def click_login_registred(self):
-        login_registred_button = self.driver.find_element(*self.button_login_register)
-        login_registred_button.click()
+        self.click_element(LoginPageLocators.BUTTON_LOGIN_REGISTER)
     
     # Функция ввода существующего и валидного email
-    def enter_email_field(self, email):
-        username_field = self.driver.find_element(*self.email_field_authorization)
-        username_field.send_keys(email)
+    def enter_email_field(self, username: str):
+        self.enter_text(LoginPageLocators.EMAIL_FIELD_AUTHORIZATION, username)
 
     # Функция ввода валидного к email пароля
-    def enter_password(self, password):
-        password_field = self.driver.find_element(*self.password_field_authorization)
-        password_field.send_keys(password)
-
+    def enter_password(self, password: str):
+        self.enter_text(LoginPageLocators.PASSWORD_FIELD_AUTHORIZATION, password)
+    
     # Функция клика на кнопку "Войти"  
     def click_login(self):
-        login_button = self.driver.find_element(*self.button_of_login)
-        login_button.click()
+        self.click_element(LoginPageLocators.BUTTON_OF_LOGIN)
 
     # Функция проверки наличия артефактов успешной авторизации
     def is_success_login(self):
@@ -64,7 +38,7 @@ class LoginPage:
 
     # Функция клика на кнопку "Выйти"  
     def click_logout_button(self):
-        WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, ".//div/div/div[1]/div/div[1]/div/button"))).click()
+        self.click_element(LoginPageLocators.BUTTON_OF_LOGOUT)
 
     # Функция прохождения всех этапов авторизации
     def login(self, email, password):
@@ -76,5 +50,3 @@ class LoginPage:
     # Функция выхода из под пользователя
     def logout(self):
         self.click_logout_button()
-
-    

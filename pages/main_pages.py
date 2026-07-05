@@ -1,68 +1,26 @@
-from selenium.webdriver.common.by import By
-import selenium
 from selenium.webdriver.remote.webdriver import WebDriver
-import pytest
+from .base_page import BasePage
+from locators.login_pages_locators import LoginPageLocators
+from locators.main_pages_locators import MainPageLocators
+from pages.login_pages import LoginPage
 
-
-class MainPage:
+class MainPage(BasePage):
+    
     def __init__(self, driver: WebDriver):
-        self.driver = driver
-
-        # Кнопка "Разместить объявление" на основной странице без авторизации
-        self.button_post_advertisement_una = By.XPATH, ".//div/div/div[1]/div/button[2]"
-
-        # Кнопка "Разместить объявление" на основной странице с авторизацией
-        #self.button_post_advertisement_a = By.XPATH, "/html/body/div/div/div[1]/div/button"
-        self.button_post_advertisement_a = By.CSS_SELECTOR, ".header_shell__zlCGj > div > button"
-        
-        # Форма на основной странице "Чтобы разместить объявление, авторизуйтесь"
-        self.registred_to_post_form = By.XPATH, ".//h1"
-
-        # Текстовое поле ввода "Название" на странице "Новое объявление" 
-        self.name_of_advertisement = By.XPATH, ".//div[1]/div/div/input"
-        
-        # Текстовое поле ввода "Описание товара" на странице "Новое объявление" 
-        self.description_of_advertisement = By.XPATH , ".//div[4]/div/textarea"
-
-        # Текстовое поле ввода "Стоимость" на странице "Новое объявление"
-        self.cost_of_advertisement = By.XPATH, './/div[5]/div/div/input'
-
-        # Радио кнопка "Б/У" в форме "Состояние товара" на странице "Новое объявление"
-        self.condition_of_goods = By.XPATH, './/fieldset/div/div[2]/div'
-
-        # Стрелка выпадающиего списке в форме "Категория" на странице "Новое объявление"
-        self.arrow_of_category = By.XPATH,  './/div[2]/div[1]/button'
-
-        # Категория "Хобби" в выпадающем списке "Категория" на странице "Новое объявление"
-        self.hobby_category = By.XPATH, './/div[2]/div[2]/button[4]/span'
-
-        # Стрелка выпадающиего списке в форме "Город" на странице "Новое объявление"
-        self.arrow_of_city = By.XPATH, './/div[3]/div[1]/button'
-
-        # Город "Екатеринбург" в выпадающем списке "Город" на странице "Новое объявление"
-        self.yoburg_city = By.XPATH,'.//div[3]/div[2]/button[4]'
-
-        # Кнопка "Опубликовать" на странице "Новое объявление"
-        self.post_button = By.XPATH, './/form/button'
-
-        # Аватарка пользователя на главной странице. Нужна для определения успешной авторизации
-        self.avatar_of_user = By.CSS_SELECTOR, ".header_shell__zlCGj > div > div.flexRow > button > svg"
-
+        super().__init__(driver)
+        self.go_to_page()
 
     # Функция клика на кнопке "Разместить объявление" без авторизации    
     def click_post_button_una(self):
-        post_button_button_una = self.driver.find_element(*self.button_post_advertisement_una)
-        post_button_button_una.click()
+        self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_UNA)
     
     # Функция клика на кнопке "Разместить объявление" пользователем с авторизацией   
     def click_post_button_a(self):
         try:
-            self.driver.find_element(*self.button_post_advertisement_a).click()
+            self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_A)
         except:
     # Повторяем поиск при возникновении ошибки
-            self.driver.find_element(*self.button_post_advertisement_a).click()       
-
-
+            self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_A)      
 
     # Функция проверки появления формы "Чтобы разместить объявление, авторизуйтесь"
     def check_login_for_post_form(self):
@@ -71,53 +29,43 @@ class MainPage:
         
     # Функция ввода названия в поле "Название" на странице "Новое объявление"
     def enter_name_advertisement(self, name):
-        name_advertisement_field = self.driver.find_element(*self.name_of_advertisement)
-        name_advertisement_field.send_keys(name)
+        self.enter_text(MainPageLocators.NAME_OF_ADVERTISEMENT, name)
 
     # Функция ввода описания в поле "Описание товара" на странице "Новое объявление"
     def enter_description_advertisement(self, description):
-        description_advertisement_field = self.driver.find_element(*self.description_of_advertisement)
-        description_advertisement_field.send_keys(description)
+        self.enter_text(MainPageLocators.DESCRIPTION_OF_ADVERTISEMENT, description)
 
     # Функция ввода стоимости в поле "Стоимость" на странице "Новое объявление"
     def enter_cost_advertisement(self, cost):
-        cost_advertisement_field = self.driver.find_element(*self.cost_of_advertisement)
-        cost_advertisement_field.send_keys(cost)   
+        self.enter_text(MainPageLocators.COST_OF_ADVERTISEMENT, cost)  
 
     # Функция клика по радио кнопке "Б/У" в форме "Состояние товара" на странице "Новое объявление"   
     def click_bu_condition(self):
-        bu_condition_button = self.driver.find_element(*self.condition_of_goods)
-        bu_condition_button.click()
+        self.click_element(MainPageLocators.CONDITION_OF_GOODS)
 
     # Функция клика по стрелке выпадающего списка "Категория товара" на странице "Новое объявление"   
     def click_arrow_of_category(self):
-        arrow_of_category = self.driver.find_element(*self.arrow_of_category)
-        arrow_of_category.click()
+        self.click_element(MainPageLocators.ARROW_OF_CATEGORY)
     
     # Функция клика по "Хобби" в выпадающем списке "Категория товара" на странице "Новое объявление"   
     def click_hobby_category(self):
-        hobby_category = self.driver.find_element(*self.hobby_category)
-        hobby_category.click() 
+        self.click_element(MainPageLocators.HOBBY_CATEGORY) 
     
     # Функция клика по стрелке выпадающего списка "Город" на странице "Новое объявление" 
     def click_arrow_of_city(self):
-        arrow_of_city = self.driver.find_element(*self.arrow_of_city)
-        arrow_of_city.click()
+        self.click_element(MainPageLocators.ARROW_OF_CITY) 
 
     # Функция клика по "Екатеринбург" в выпадающем списке "Город" на странице "Новое объявление"   
     def click_yoburg_city(self):
-        yoburg_city = self.driver.find_element(*self.yoburg_city)
-        yoburg_city.click()
+        self.click_element(MainPageLocators.YOBURG_CITY) 
 
     # Функция клика на кнопке "Разместить объявление" на странице "Новое объявление"   
     def click_post_button(self):
-        post_button_button = self.driver.find_element(*self.post_button)
-        post_button_button.click()
+        self.click_element(MainPageLocators.POST_BUTTON) 
 
     # Функция клика аватарке на главной странице    
     def click_avatar_of_user(self):
-        avatar_of_user = self.driver.find_element(*self.avatar_of_user)
-        avatar_of_user.click()
+        self.click_element(LoginPageLocators.AVATAR_OF_USER) 
     
     # Функция проверки наличия объявления
     def check_of_advertisement(self):
@@ -125,8 +73,30 @@ class MainPage:
         if self.driver.find_element_by_alt('Мопед'):
             return True
     
+
+    # Функция клика на кнопке "Вход и регистрация"    
+    def click_login_registred(self):
+        self.click_element(LoginPageLocators.BUTTON_LOGIN_REGISTER)
+    
+    # Функция ввода существующего и валидного email
+    def enter_email_field(self, username: str):
+        self.enter_text(LoginPageLocators.EMAIL_FIELD_AUTHORIZATION, username)
+
+    # Функция ввода валидного к email пароля
+    def enter_password(self, password: str):
+        self.enter_text(LoginPageLocators.PASSWORD_FIELD_AUTHORIZATION, password)
+    
+    # Функция клика на кнопку "Войти"  
+    def click_login(self):
+        self.click_element(LoginPageLocators.BUTTON_OF_LOGIN)
+
     # Функция размещения объявления авторизованного пользователя
-    def post_advertisement(self,name,description,cost):
+    def post_advertisement(self,email,password,name,description,cost):
+    
+        self.click_login_registred()
+        self.enter_email_field(email)
+        self.enter_password(password)
+        self.click_login()
         self.click_post_button_a()
         self.enter_name_advertisement(name)
         self.enter_description_advertisement(description)
