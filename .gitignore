@@ -1,5 +1,7 @@
 # Created by pytest automatically.
-* __pycache__
-* CACHEDIR
-* v
-* .pytest_cache
+__pycache__/
+.pytest_cache/
+test/__pycache__/
+pages/__pycache__/
+locators/__pycache__/
+*locators.py
