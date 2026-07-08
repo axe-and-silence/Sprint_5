@@ -17,4 +17,3 @@ def test_post_advertisement(setup_driver):
         main_pages = MainPage(driver)
         main_pages.post_advertisement(Constants.email, Constants.password,Constants.advertisement_name,Constants.advertisement_description,Constants.advertisement_cost)
         assert main_pages.check_of_advertisement
-        #Constants.email, Constants.password,

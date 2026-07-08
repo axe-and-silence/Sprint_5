@@ -9,18 +9,19 @@ class MainPage(BasePage):
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
         self.go_to_page()
-
-    # Функция клика на кнопке "Разместить объявление" без авторизации    
+ 
+    # Функция клика на кнопке "Разместить объявление" без авторизации
     def click_post_button_una(self):
-        self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_UNA)
-    
+        self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_UNA)    
+
     # Функция клика на кнопке "Разместить объявление" пользователем с авторизацией   
     def click_post_button_a(self):
         try:
             self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_A)
         except:
     # Повторяем поиск при возникновении ошибки
-            self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_A)      
+            self.click_element(MainPageLocators.BUTTON_POST_ADVERTISEMENT_A)  
+                   
 
     # Функция проверки появления формы "Чтобы разместить объявление, авторизуйтесь"
     def check_login_for_post_form(self):
@@ -70,7 +71,7 @@ class MainPage(BasePage):
     # Функция проверки наличия объявления
     def check_of_advertisement(self):
         self.click_avatar_of_user()
-        if self.driver.find_element_by_alt('Мопед'):
+        if self.find_element_by_alt('Мопед'):
             return True
     
 

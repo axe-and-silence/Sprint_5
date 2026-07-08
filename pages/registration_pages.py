@@ -35,7 +35,7 @@ class RegistrationPage(BasePage):
     
     # Функция проверки наличия артефактов успешной авторизации
     def is_success_login(self):
-        if self.avatar_of_user and self.name_of_user and '/login' in self.driver.current_url:
+        if self.avatar_of_user and self.name_of_user and '/login' in self.current_url:
             return True
         
     # Функция проверки наличия артефактов неуспешной регистрации

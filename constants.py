@@ -5,4 +5,6 @@ class Constants:
     advertisement_description = 'Моторолер не мой!!! Я просто разместил ОБЪЯВУ'
     advertisement_cost = "2100"
     
+    base_url = "https://qa-desk.education-services.ru/"
+    
 
